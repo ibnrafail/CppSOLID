@@ -8,3 +8,4 @@ enable_testing()
 
 add_subdirectory(drivers)
 add_subdirectory(caretaker)
+add_subdirectory(observer)
