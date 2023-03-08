@@ -17,3 +17,8 @@ void Publisher::notify(boost::any const &data)
         observer.get().update(data);
     }
 }
+
+std::list<Publisher::IObserverRef> &Publisher::GetObservers()
+{
+    return m_observers;
+}

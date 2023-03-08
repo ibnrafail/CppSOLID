@@ -16,8 +16,11 @@ public:
 
     void notify(boost::any const &data) override;
 
-private:
+protected:
     using IObserverRef = std::reference_wrapper<IObserver>;
 
+    std::list<IObserverRef> &GetObservers();
+
+private:
     std::list<IObserverRef> m_observers;
 };

@@ -6,3 +6,4 @@ videos
 *.tar.xz
 SOLID-C++.png
 .vscode/settings.json
+.vscode/c_cpp_properties.json

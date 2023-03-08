@@ -6,6 +6,10 @@ SET(CMAKE_CXX_FLAGS "-std=c++17 -pthread -O3 -pedantic -Wall -Werror")
 
 enable_testing()
 
-add_subdirectory(drivers)
-add_subdirectory(caretaker)
 add_subdirectory(observer)
+add_subdirectory(drivers)
+add_subdirectory(sensors)
+add_subdirectory(caretaker)
+
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} sensors)
