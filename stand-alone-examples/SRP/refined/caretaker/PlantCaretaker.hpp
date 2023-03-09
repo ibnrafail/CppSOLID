@@ -2,19 +2,35 @@
 
 #include "WaterDriver.hpp"
 #include "WindowDriver.hpp"
+#include "IObserver.hpp"
+#include "LightSensor.hpp"
+#include "HumiditySensor.hpp"
 
-class PlantCaretaker
+#include <mutex>
+
+class PlantCaretaker : public IObserver
 {
 public:
-    void onMuchSunlight();
+    virtual ~PlantCaretaker() = default;
 
-    void onLittleSunlight();
-
-    void onDryAir();
-
-    void onDrySoil();
+    void update(boost::any const &data) override;
 
 private:
-    WaterDriver m_waterDriver;
+    void handleLightEvent(LightSensorEvent const &event);
+
+    void handleMuchSunlight();
+
+    void handleLittleSunlight();
+
+    void handleHumidityEvent(HumiditySensorEvent const event);
+
+    void handleDryAir();
+
+    void handleDrySoil();
+
+private:
+    std::string  m_name;
+    std::mutex   m_mutex;
+    WaterDriver  m_waterDriver;
     WindowDriver m_windowDriver;
 };

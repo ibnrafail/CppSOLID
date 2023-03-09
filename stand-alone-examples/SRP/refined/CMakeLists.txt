@@ -12,4 +12,4 @@ add_subdirectory(sensors)
 add_subdirectory(caretaker)
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} sensors)
+target_link_libraries(${PROJECT_NAME} sensors caretaker)

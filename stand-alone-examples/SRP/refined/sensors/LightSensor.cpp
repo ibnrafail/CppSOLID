@@ -6,36 +6,20 @@
 
 void LightSensor::operator()()
 {
-    auto &observers = GetObservers();
     for (;;)
     {
         const auto sunlight = isSunlight();
         std::cout << "Sun on: " << std::boolalpha << sunlight << std::endl;
 
-        bool update = true;
-        LightSensorEvent event = LightSensorEvent::UNKNOWN;
-
         if (isTooMuchSunlight(sunlight))
         {
             m_sensorOn = false;
-            event = LightSensorEvent::MUCH_SUN;
+            notify(LightSensorEvent::MUCH_SUN);
         }
         else if (isTooLittleSunlight(sunlight))
         {
             m_sensorOn = true;
-            event = LightSensorEvent::LITTLE_SUN;
-        }
-        else
-        {
-            update = false;
-        }
-
-        if (update)
-        {
-            for (auto p : observers)
-            {
-                p.get().update(event);
-            }
+            notify(LightSensorEvent::LITTLE_SUN);
         }
 
         std::this_thread::sleep_for(m_sleepTime);
