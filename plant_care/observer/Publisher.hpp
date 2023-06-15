@@ -14,6 +14,8 @@ public:
 
     void unsubscribe(IObserver &observer) override;
 
+    void unsubscribeAll() override;
+
     void notify(boost::any const &data) override;
 
 private:

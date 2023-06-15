@@ -11,5 +11,7 @@ public:
 
     virtual void unsubscribe(IObserver &observer) = 0;
 
+    virtual void unsubscribeAll() = 0;
+
     virtual void notify(boost::any const &data) = 0;
 };

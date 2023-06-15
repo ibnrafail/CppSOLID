@@ -10,6 +10,11 @@ void Publisher::unsubscribe(IObserver &observer)
     m_observers.remove(IObserverRef(observer));
 }
 
+void Publisher::unsubscribeAll()
+{
+    m_observers.clear();
+}
+
 void Publisher::notify(boost::any const &data)
 {
     for (auto observer : m_observers)

@@ -3,30 +3,45 @@
 #include "PlantCaretaker.hpp"
 
 #include <thread>
+#include <memory>
+#include <vector>
 
 int main()
 {
-    PlantCaretaker caretaker1;
-    PlantCaretaker caretaker2;
+    constexpr uint32_t numberOfCaretakers = 10;
 
-    HumiditySensor humiditySensor;
-    LightSensor lightSensor;
+    std::vector<std::unique_ptr<IObserver>> caretakers;
+    
+    std::vector<std::shared_ptr<ISensor>> sensors;
+    std::vector<std::thread> sensorThreads;
 
-    lightSensor.subscribe(caretaker1);
-    lightSensor.subscribe(caretaker2);
-    humiditySensor.subscribe(caretaker1);
-    humiditySensor.subscribe(caretaker2);
+    sensors.emplace_back(std::make_shared<HumiditySensor>());
+    sensors.emplace_back(std::make_shared<LightSensor>());
 
-    std::thread lightSensorThread(lightSensor);
-    std::thread humiditySensorThread(humiditySensor);
+    for (uint32_t caretakerIdx = 0; caretakerIdx < numberOfCaretakers; ++caretakerIdx)
+    {
+        auto &caretaker = caretakers.emplace_back(std::make_unique<PlantCaretaker>());
 
-    lightSensorThread.join();
-    humiditySensorThread.join();
+        for (auto &sensor : sensors)
+        {
+            sensor->subscribe(*caretaker);
+        }
+    }
 
-    lightSensor.unsubscribe(caretaker1);
-    lightSensor.unsubscribe(caretaker2);
-    humiditySensor.unsubscribe(caretaker1);
-    humiditySensor.unsubscribe(caretaker2);
+    for (auto &sensor : sensors)
+    {
+        sensorThreads.emplace_back(std::thread([sensor]() { (*sensor)(); }));
+    }
+
+    for (auto &thread : sensorThreads)
+    {
+        thread.join();
+    }
+
+    for (auto &sensor : sensors)
+    {
+        sensor->unsubscribeAll();
+    }
 
     return 0;
 }
