@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ISensor.hpp"
+#include "TempPublisher.hpp"
 
 #include <chrono>
 #include <optional>
@@ -12,12 +12,12 @@ enum class LightSensorEvent
     UNKNOWN
 };
 
-class LightSensor : public ISensor
+class LightSensor : public TempPublisher<LightSensorEvent>
 {
 public:
     virtual ~LightSensor() = default;
 
-    void operator()() override;
+    void operator()();
 
 private:
     bool isTooMuchSunlight(const bool sunlight);

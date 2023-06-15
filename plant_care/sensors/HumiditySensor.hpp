@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ISensor.hpp"
+#include "TempPublisher.hpp"
 #include <chrono>
 
 enum class HumiditySensorEvent
@@ -10,12 +10,12 @@ enum class HumiditySensorEvent
     UNKNOWN
 };
 
-class HumiditySensor : public ISensor
+class HumiditySensor : public TempPublisher<HumiditySensorEvent>
 {
 public:
     virtual ~HumiditySensor() = default;
 
-    void operator()() override;
+    void operator()();
 
 private:
     bool isAirTooDry() const;

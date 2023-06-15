@@ -3,7 +3,6 @@ project(sensors)
 include_directories(${PROJECT_SOURCE_DIR})
 
 set(SOURCE
-    ${PROJECT_SOURCE_DIR}/ISensor.hpp
     ${PROJECT_SOURCE_DIR}/HumiditySensor.cpp
     ${PROJECT_SOURCE_DIR}/LightSensor.cpp
 )
